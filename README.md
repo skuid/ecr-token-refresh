@@ -3,6 +3,9 @@
 `ecr-token-refresh` is a utility for refreshing access tokens to an AWS ECR Registry on a regular interval. It is designed to be used as a sidecar for Spinnaker's Clouddriver service. It's responsible for refreshing the tokens and writing their values to a file. Ideally, these files would be written to a volume shared between Clouddriver and `ecr-token-refresh`.
 
 
+## Docker Image
+`quay.io/skuid/ecr-token-refresh:latest`
+
 ## Configuration
 
 `ecr-token-refresh` is configured via a configuration file. The default path for this file is at `/opt/config/ecr-token-refresh/config.yaml`. See the sample configuration below.
@@ -21,7 +24,6 @@ registries: # list of registries to refresh
 ## Usage
 
 You can use `ecr-token-refresh` with Docker or as a standalone binary. In either case, either drop the config file in the default path or pass the `--config` flag with the path to the configuration when starting the process.
-
 
 See the `examples` directory for sample Clouddriver ReplicaSets, ConfigMaps and `clouddriver-local` config!
 
