@@ -1,0 +1,15 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: refresh.config
+  namespace: spinnaker
+data:
+  config.yaml: |-
+    interval: 30m
+    registries:
+        - registryId: "12345667"
+          region: "us-west-2"
+          passwordFile: "/opt/passwords/my-registry.pass"
+        - registryId: "0987654321"
+          region: "eu-central-1"
+          passwordFile: "/opt/passwords/my-registry-in-eu.pass"

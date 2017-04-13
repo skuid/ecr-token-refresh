@@ -1,0 +1,38 @@
+server:
+  port: ${services.clouddriver.port:7002}
+  address: 0.0.0.0
+
+redis:
+  connection: ${services.redis.connection:redis://localhost:6379}
+
+default:
+  account:
+    env: ${providers.kubernetes.primaryCredentials.name}
+
+kubernetes:
+  enabled: true
+  accounts:
+    - name: my-kubernetes-account
+      dockerRegistries: # WARNING! only include configured accounts here
+        - accountName: registry-europe
+        - accountName: registry-us-west
+
+dockerRegistry:
+  enabled: true
+  accounts:
+    - name: registry-europe
+      address: some-registry-url-here
+      username: AWS
+      passwordFile: /opt/passwords/my-registry-in-eu.pass
+      repositories:
+        - # the names of your ECR images (<repository>/<image>)
+    - name: registry-us-west
+      address: some-registry-url-here
+      username: AWS
+      passwordFile: /opt/passwords/my-registry.pass
+      repositories:
+        - # the names of your ECR images (<repository>/<image>)
+
+credentials:
+  primaryAccountTypes: ${providers.kubernetes.primaryCredentials.name}
+  challengeDestructiveActionsEnvironments: ${providers.kubernetes.primaryCredentials.name}
