@@ -10,8 +10,8 @@
 ```yaml
 interval: 30m # defines refresh interval
 registries: # list of registries to refresh
-    - registryId: "12345667"
-      region: "us-west-2"
+    - registryId: "12345667" # typically AWS account ID
+      region: "us-west-2" 
       passwordFile: "/opt/passwords/my-registry.pass"
     - registryId: "0987654321"
       region: "eu-central-1"
@@ -24,3 +24,8 @@ You can use `ecr-token-refresh` with Docker or as a standalone binary. In either
 
 
 See the `examples` directory for sample Clouddriver ReplicaSets, ConfigMaps and `clouddriver-local` config!
+
+
+## ECR Repository Configuration
+
+In order to use `ecr-token-refresh` with ECR you will need to configure your ECR repository to allow access via IAM. The only permission that `ecr-token-refresh` needs to function is `ecr:GetAuthorizationToken`. Under the Permissions tab, create a new Policy giving the appropriate user or role permission. It's your choice how you want to assign these on the machine. We rely on the machine role that `ecr-token-refresh` is running on having access to the repository. You can also use Access and Secret Keys if you are so inclined.
