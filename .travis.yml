@@ -1,0 +1,13 @@
+sudo: required
+
+language: go
+
+services:
+  - docker
+
+before_install:
+  - docker build -t quay.io/orfeasz/ecr-token-refresh:$TRAVIS_BUILD_NUMBER .
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push quay.io/orfeasz/ecr-token-refresh:$TRAVIS_BUILD_NUMBER
