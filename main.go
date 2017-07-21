@@ -4,6 +4,8 @@ import (
 	"encoding/base64"
 	"flag"
 	"fmt"
+	"io"
+	"net/http"
 	"os"
 	"strings"
 
@@ -93,6 +95,11 @@ func refreshCredential(registry Registry, sess *session.Session) {
 	}
 }
 
+
+func handleHttp(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, "ECR Token Refresh")
+}
+
 func main() {
 
 	sess, err := session.NewSession()
@@ -108,6 +115,9 @@ func main() {
 	interval, err := time.ParseDuration(viper.GetString("interval"))
 
 	exitOnError(err)
+
+	http.HandleFunc("/", handleHttp)
+	go http.ListenAndServe(":3277", nil)
 
 	if registries != nil {
 
