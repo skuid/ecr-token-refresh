@@ -1,6 +1,6 @@
 sudo: required
 
-language: go
+language: generic
 
 env:
   global:
@@ -12,9 +12,13 @@ before_install:
   - sudo apt-get update
   - sudo apt-get -y install docker-ce
 
-after_success:
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REPO_DOMAIN
+before_script:
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY
+
+script:
   - docker build -t $DOCKER_REPO:$COMMIT .
+
+after_success:
   - docker tag $DOCKER_REPO:$COMMIT $DOCKER_REPO:$TRAVIS_BUILD_NUMBER
   - docker tag $DOCKER_REPO:$COMMIT $DOCKER_REPO:latest
   - docker push $DOCKER_REPO
