@@ -95,9 +95,9 @@ func refreshCredential(registry Registry, sess *session.Session) {
 	}
 }
 
-
-func handleHttp(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "ECR Token Refresh")
+func handleHealthCheck(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	io.WriteString(w, "{\"status\":\"healthy\"}")
 }
 
 func main() {
@@ -116,7 +116,7 @@ func main() {
 
 	exitOnError(err)
 
-	http.HandleFunc("/", handleHttp)
+	http.HandleFunc("/health", handleHealthCheck)
 	go http.ListenAndServe(":3277", nil)
 
 	if registries != nil {
