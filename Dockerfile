@@ -2,15 +2,15 @@
 FROM golang:1.8.3-alpine
 
 # Copy our app files
-ADD . "$GOPATH/src/github.com/OrfeasZ/ecr-token-refresh"
+ADD . "$GOPATH/src/ecr-token-refresh"
 
 # Build and install our app
-RUN go install github.com/OrfeasZ/ecr-token-refresh
+RUN go install ecr-token-refresh
 
 # Secondary stage, binaries only
 FROM alpine:latest  
 
-WORKDIR /root/
+WORKDIR /bin/
 
 # Copy the application binary
 COPY --from=0 /go/bin/ecr-token-refresh .
@@ -22,4 +22,4 @@ EXPOSE 3277
 VOLUME /opt/config/ecr-token-refresh
 
 # Set our app entrypoint
-ENTRYPOINT ["/root/ecr-token-refresh"]
+ENTRYPOINT ["/bin/ecr-token-refresh"]
