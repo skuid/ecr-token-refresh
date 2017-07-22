@@ -2,17 +2,19 @@ sudo: required
 
 language: go
 
-services:
-  - docker
-
 env:
   global:
     - COMMIT=${TRAVIS_COMMIT::8}
 
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce
+
 after_success:
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD quay.io
-  - export REPO=quay.io/orfeasz/ecr-token-refresh
-  - docker build -t $REPO:$COMMIT .
-  - docker tag $REPO:$COMMIT $REPO:$TRAVIS_BUILD_NUMBER
-  - docker tag $REPO:$COMMIT $REPO:latest
-  - docker push $REPO
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REPO_DOMAIN
+  - docker build -t $DOCKER_REPO:$COMMIT .
+  - docker tag $DOCKER_REPO:$COMMIT $DOCKER_REPO:$TRAVIS_BUILD_NUMBER
+  - docker tag $DOCKER_REPO:$COMMIT $DOCKER_REPO:latest
+  - docker push $DOCKER_REPO
