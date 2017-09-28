@@ -12,7 +12,7 @@ $ hal config provider docker-registry account add my-docker-registry \
     --address https://<aws-account-number>.dkr.ecr.<region>.aws.com\
     --repositories $REPOSITORIES \
     --username AWS \
-    --password-file /opt/passwords/my-docker-registry.pass 
+    --password-file /opt/passwords/my-registry.pass 
 ```
 
 Note, the password file _is not_ a file that will be read by Halyard. It will be read by Spinnaker each time it interacts with your registry.
