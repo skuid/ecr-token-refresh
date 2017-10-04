@@ -1,6 +1,5 @@
 # Use standard golang build
 FROM golang:1.8.3-alpine
-
 # Copy our app files
 ADD . "$GOPATH/src/ecr-token-refresh"
 
@@ -9,6 +8,8 @@ RUN go install ecr-token-refresh
 
 # Secondary stage, binaries only
 FROM alpine:latest  
+
+RUN apk add -U ca-certificates
 
 WORKDIR /bin/
 
